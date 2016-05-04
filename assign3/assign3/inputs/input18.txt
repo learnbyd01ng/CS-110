@@ -1,0 +1,7 @@
+/bin/echo -e 'tsh> /bin/rm -fr ls-listing.txt'
+/bin/rm -fr ls-listing.txt
+/bin/echo -e 'tsh> /bin/ls /usr/include > ls-listing.txt'
+/bin/ls /usr/include > ls-listing.txt
+/bin/echo -e 'tsh> ./mycat < ls-listing.txt'
+./mycat < ls-listing.txt
+quit

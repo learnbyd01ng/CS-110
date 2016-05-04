@@ -1,0 +1,3 @@
+/bin/echo -e 'tsh> ./mycat < /usr/include/stdio.h'
+./mycat < /usr/include/stdio.h
+quit

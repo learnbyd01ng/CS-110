@@ -1,0 +1,1636 @@
+make[1]: Entering directory `/afs/ir.stanford.edu/class/cs110/staff/master-repos/assign3-soln'
+./sdriver.pl -t traces/trace01.txt -s ./tsh -a "-p"
+#
+# trace01.txt - Properly terminate on EOF.
+#
+./sdriver.pl -t traces/trace02.txt -s ./tsh -a "-p"
+#
+# trace02.txt - Process builtin quit command.
+#
+./sdriver.pl -t traces/trace03.txt -s ./tsh -a "-p"
+#
+# trace03.txt - Run a foreground job.
+#
+tsh> quit
+./sdriver.pl -t traces/trace04.txt -s ./tsh -a "-p"
+#
+# trace04.txt - Run a background job.
+#
+tsh> ./myspin 1 &
+[1] (13696) ./myspin 1 &
+./sdriver.pl -t traces/trace05.txt -s ./tsh -a "-p"
+#
+# trace05.txt - Process jobs builtin command.
+#
+tsh> ./myspin 2 &
+[1] (13704) ./myspin 2 &
+tsh> ./myspin 3 &
+[2] (13706) ./myspin 3 &
+tsh> jobs
+[1] (13704) Running ./myspin 2 &
+[2] (13706) Running ./myspin 3 &
+./sdriver.pl -t traces/trace06.txt -s ./tsh -a "-p"
+#
+# trace06.txt - Forward SIGINT to foreground job.
+#
+tsh> ./myspin 4
+Job [1] (13713) terminated by signal 2
+./sdriver.pl -t traces/trace07.txt -s ./tsh -a "-p"
+#
+# trace07.txt - Forward SIGINT only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (13717) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (13723) terminated by signal 2
+tsh> jobs
+[1] (13717) Running ./myspin 4 &
+./sdriver.pl -t traces/trace08.txt -s ./tsh -a "-p"
+#
+# trace08.txt - Forward SIGTSTP only to foreground job.
+#
+tsh> ./myspin 4 &
+[1] (13730) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (13732) stopped by signal 20
+tsh> jobs
+[1] (13730) Running ./myspin 4 &
+[2] (13732) Stopped ./myspin 5 
+./sdriver.pl -t traces/trace09.txt -s ./tsh -a "-p"
+#
+# trace09.txt - Process bg builtin command
+#
+tsh> ./myspin 4 &
+[1] (13741) ./myspin 4 &
+tsh> ./myspin 5
+Job [2] (13743) stopped by signal 20
+tsh> jobs
+[1] (13741) Running ./myspin 4 &
+[2] (13743) Stopped ./myspin 5 
+tsh> bg %2
+[2] (13743) ./myspin 5 
+tsh> jobs
+[1] (13741) Running ./myspin 4 &
+[2] (13743) Running ./myspin 5 
+./sdriver.pl -t traces/trace10.txt -s ./tsh -a "-p"
+#
+# trace10.txt - Process fg builtin command. 
+#
+tsh> ./myspin 4 &
+[1] (13762) ./myspin 4 &
+tsh> fg %1
+Job [1] (13762) stopped by signal 20
+tsh> jobs
+[1] (13762) Stopped ./myspin 4 &
+tsh> fg %1
+tsh> jobs
+./sdriver.pl -t traces/trace11.txt -s ./tsh -a "-p"
+#
+# trace11.txt - Forward SIGINT to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (13777) terminated by signal 2
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+  936 tty4     Ss+    0:00 /sbin/getty -8 38400 tty4
+  942 tty5     Ss+    0:00 /sbin/getty -8 38400 tty5
+  951 tty2     Ss+    0:00 /sbin/getty -8 38400 tty2
+  952 tty3     Ss+    0:00 /sbin/getty -8 38400 tty3
+  954 tty6     Ss+    0:00 /sbin/getty -8 38400 tty6
+ 1056 pts/34   Ss+    0:00 -csh
+ 1572 tty1     Ss+    0:00 /sbin/getty -8 38400 tty1
+ 2286 pts/20   S+     0:01 ssh -X suraje@corn.stanford.edu
+ 3395 pts/0    Ss+    0:00 -bin/tcsh
+ 3476 pts/19   Ss+    0:00 -bin/tcsh
+ 8746 pts/11   Ss     0:00 -csh
+ 9804 pts/11   Sl+   18:00 emacs Makefile
+ 9996 tty7     Ss+   10:32 /usr/bin/X :0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+10855 pts/33   Ss+    0:00 -csh
+12613 pts/14   Ss     0:00 -csh
+12732 pts/47   Ss     0:00 -tcsh
+12762 pts/49   Ss     0:00 -tcsh
+12776 pts/49   S      0:00 /bin/zsh
+12823 pts/47   S+     0:00 /bin/zsh
+12883 pts/14   S+     0:02 ssh shehadeh@corn
+13568 pts/4    Ss     0:00 -tcsh
+13683 pts/4    S+     0:00 make tsh_soln_out
+13684 pts/4    S+     0:00 /bin/sh -c make tests > tsh_soln.out 2>&1
+13685 pts/4    S+     0:00 make tests
+13774 pts/4    S+     0:00 /usr/bin/perl ./sdriver.pl -t traces/trace11.txt -s ./tsh -a -p
+13775 pts/4    S+     0:00 ./tsh -p
+13781 pts/4    R      0:00 /bin/ps a
+13913 pts/2    Ss+    0:00 -csh
+14529 pts/12   Ss+    0:00 -csh
+14678 pts/49   Sl+    0:00 vim inode.c
+15908 pts/13   Ss+    0:00 /bin/zsh
+15913 pts/17   Ss     0:00 /bin/zsh
+15918 pts/28   Ss     0:00 /bin/zsh
+16030 pts/28   Sl+    0:00 vim print.pl
+16072 pts/17   Sl+    0:00 vim readme.txt
+16207 pts/2    S    107:37 /usr/class/ee/cadence/IC614/tools/dfII/bin/64bit/virtuoso
+16263 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 0 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/libManager -unmapped  -mpssession virtuoso16207 -mpshost myth22 
+16281 pts/2    S      0:16 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/64bit/libManager -unmapped -mpssession virtuoso16207 -mpshost myth22
+18303 pts/22   Ss     0:00 -csh
+18375 pts/22   S+     0:04 ssh corn
+18411 pts/18   Ss+    0:00 -csh
+18632 pts/15   Ss+    0:00 -csh
+19472 tty8     Ss+    3:26 /usr/bin/X :19 -auth /var/run/lightdm/root/:19 -nolisten tcp vt8 -novtswitch
+19740 pts/23   Ss     0:00 -csh
+19804 pts/23   Sl+    0:00 vim etude1Test.py
+21293 pts/24   Ss     0:00 -csh
+21603 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 1 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21611 pts/2    S      0:00 /bin/sh /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21634 pts/24   Sl+    0:00 vim etude1Test.py
+21671 pts/2    Sl    16:54 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools/jre64/bin/java -Dclient.xserver.version=40300000 -Dclient.xserver.vendor=XFree86 -Xss5M -Xms36M -Xmx1024M -XX:PermSize=24M -XX:MaxPermSize=48M -XX:NewSize=12M -Dswing.metalTheme=ocean -classpath /afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/cds_srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wavescan.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wsutil.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/symphony.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/crimson.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jaxp.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jai/lib/jai_codec.jar COM.cadence.awd.session.ApplicationManager -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22
+23475 pts/3    Ss     0:00 -csh
+23479 pts/3    S+     0:00 emacs reassemble
+26738 pts/38   Ss     0:00 -csh
+26783 pts/38   S+     0:02 ssh -X corn.stanford.edu
+30910 pts/20   Ss     0:00 bash
+30973 pts/25   Ss+    0:00 -csh
+32507 tty9     Ss+    0:11 /usr/bin/X :21 -auth /var/run/lightdm/root/:21 -nolisten tcp vt9 -novtswitch
+./sdriver.pl -t traces/trace12.txt -s ./tsh -a "-p"
+#
+# trace12.txt - Forward SIGTSTP to every process in foreground process group
+#
+tsh> ./mysplit 4
+Job [1] (13785) stopped by signal 20
+tsh> jobs
+[1] (13785) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+  936 tty4     Ss+    0:00 /sbin/getty -8 38400 tty4
+  942 tty5     Ss+    0:00 /sbin/getty -8 38400 tty5
+  951 tty2     Ss+    0:00 /sbin/getty -8 38400 tty2
+  952 tty3     Ss+    0:00 /sbin/getty -8 38400 tty3
+  954 tty6     Ss+    0:00 /sbin/getty -8 38400 tty6
+ 1056 pts/34   Ss+    0:00 -csh
+ 1572 tty1     Ss+    0:00 /sbin/getty -8 38400 tty1
+ 2286 pts/20   S+     0:01 ssh -X suraje@corn.stanford.edu
+ 3395 pts/0    Ss+    0:00 -bin/tcsh
+ 3476 pts/19   Ss+    0:00 -bin/tcsh
+ 8746 pts/11   Ss     0:00 -csh
+ 9804 pts/11   Sl+   18:00 emacs Makefile
+ 9996 tty7     Ss+   10:32 /usr/bin/X :0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+10855 pts/33   Ss+    0:00 -csh
+12613 pts/14   Ss     0:00 -csh
+12732 pts/47   Ss     0:00 -tcsh
+12762 pts/49   Ss     0:00 -tcsh
+12776 pts/49   S      0:00 /bin/zsh
+12823 pts/47   S+     0:00 /bin/zsh
+12883 pts/14   S+     0:02 ssh shehadeh@corn
+13568 pts/4    Ss     0:00 -tcsh
+13683 pts/4    S+     0:00 make tsh_soln_out
+13684 pts/4    S+     0:00 /bin/sh -c make tests > tsh_soln.out 2>&1
+13685 pts/4    S+     0:00 make tests
+13782 pts/4    S+     0:00 /usr/bin/perl ./sdriver.pl -t traces/trace12.txt -s ./tsh -a -p
+13783 pts/4    S+     0:00 ./tsh -p
+13785 pts/4    T      0:00 ./mysplit 4
+13786 pts/4    T      0:00 ./mysplit 4
+13796 pts/4    R      0:00 /bin/ps a
+13913 pts/2    Ss+    0:00 -csh
+14529 pts/12   Ss+    0:00 -csh
+14678 pts/49   Sl+    0:00 vim inode.c
+15908 pts/13   Ss+    0:00 /bin/zsh
+15913 pts/17   Ss     0:00 /bin/zsh
+15918 pts/28   Ss     0:00 /bin/zsh
+16030 pts/28   Sl+    0:00 vim print.pl
+16072 pts/17   Sl+    0:00 vim readme.txt
+16207 pts/2    S    107:37 /usr/class/ee/cadence/IC614/tools/dfII/bin/64bit/virtuoso
+16263 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 0 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/libManager -unmapped  -mpssession virtuoso16207 -mpshost myth22 
+16281 pts/2    S      0:16 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/64bit/libManager -unmapped -mpssession virtuoso16207 -mpshost myth22
+18303 pts/22   Ss     0:00 -csh
+18375 pts/22   S+     0:04 ssh corn
+18411 pts/18   Ss+    0:00 -csh
+18632 pts/15   Ss+    0:00 -csh
+19472 tty8     Ss+    3:26 /usr/bin/X :19 -auth /var/run/lightdm/root/:19 -nolisten tcp vt8 -novtswitch
+19740 pts/23   Ss     0:00 -csh
+19804 pts/23   Sl+    0:00 vim etude1Test.py
+21293 pts/24   Ss     0:00 -csh
+21603 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 1 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21611 pts/2    S      0:00 /bin/sh /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21634 pts/24   Sl+    0:00 vim etude1Test.py
+21671 pts/2    Sl    16:54 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools/jre64/bin/java -Dclient.xserver.version=40300000 -Dclient.xserver.vendor=XFree86 -Xss5M -Xms36M -Xmx1024M -XX:PermSize=24M -XX:MaxPermSize=48M -XX:NewSize=12M -Dswing.metalTheme=ocean -classpath /afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/cds_srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wavescan.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wsutil.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/symphony.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/crimson.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jaxp.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jai/lib/jai_codec.jar COM.cadence.awd.session.ApplicationManager -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22
+23475 pts/3    Ss     0:00 -csh
+23479 pts/3    S+     0:00 emacs reassemble
+26738 pts/38   Ss     0:00 -csh
+26783 pts/38   S+     0:02 ssh -X corn.stanford.edu
+30910 pts/20   Ss     0:00 bash
+30973 pts/25   Ss+    0:00 -csh
+32507 tty9     Ss+    0:11 /usr/bin/X :21 -auth /var/run/lightdm/root/:21 -nolisten tcp vt9 -novtswitch
+./sdriver.pl -t traces/trace13.txt -s ./tsh -a "-p"
+#
+# trace13.txt - Restart every stopped process in process group
+#
+tsh> ./mysplit 4
+Job [1] (13800) stopped by signal 20
+tsh> jobs
+[1] (13800) Stopped ./mysplit 4 
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+  936 tty4     Ss+    0:00 /sbin/getty -8 38400 tty4
+  942 tty5     Ss+    0:00 /sbin/getty -8 38400 tty5
+  951 tty2     Ss+    0:00 /sbin/getty -8 38400 tty2
+  952 tty3     Ss+    0:00 /sbin/getty -8 38400 tty3
+  954 tty6     Ss+    0:00 /sbin/getty -8 38400 tty6
+ 1056 pts/34   Ss+    0:00 -csh
+ 1572 tty1     Ss+    0:00 /sbin/getty -8 38400 tty1
+ 2286 pts/20   S+     0:01 ssh -X suraje@corn.stanford.edu
+ 3395 pts/0    Ss+    0:00 -bin/tcsh
+ 3476 pts/19   Ss+    0:00 -bin/tcsh
+ 8746 pts/11   Ss     0:00 -csh
+ 9804 pts/11   Sl+   18:00 emacs Makefile
+ 9996 tty7     Ss+   10:32 /usr/bin/X :0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+10855 pts/33   Ss+    0:00 -csh
+12613 pts/14   Ss     0:00 -csh
+12732 pts/47   Ss     0:00 -tcsh
+12762 pts/49   Ss     0:00 -tcsh
+12776 pts/49   S      0:00 /bin/zsh
+12823 pts/47   S+     0:00 /bin/zsh
+12883 pts/14   S+     0:02 ssh shehadeh@corn
+13568 pts/4    Ss     0:00 -tcsh
+13683 pts/4    S+     0:00 make tsh_soln_out
+13684 pts/4    S+     0:00 /bin/sh -c make tests > tsh_soln.out 2>&1
+13685 pts/4    S+     0:00 make tests
+13797 pts/4    S+     0:00 /usr/bin/perl ./sdriver.pl -t traces/trace13.txt -s ./tsh -a -p
+13798 pts/4    S+     0:00 ./tsh -p
+13800 pts/4    T      0:00 ./mysplit 4
+13801 pts/4    T      0:00 ./mysplit 4
+13809 pts/4    R      0:00 /bin/ps a
+13913 pts/2    Ss+    0:00 -csh
+14529 pts/12   Ss+    0:00 -csh
+14678 pts/49   Sl+    0:00 vim inode.c
+15908 pts/13   Ss+    0:00 /bin/zsh
+15913 pts/17   Ss     0:00 /bin/zsh
+15918 pts/28   Ss     0:00 /bin/zsh
+16030 pts/28   Sl+    0:00 vim print.pl
+16072 pts/17   Sl+    0:00 vim readme.txt
+16207 pts/2    S    107:37 /usr/class/ee/cadence/IC614/tools/dfII/bin/64bit/virtuoso
+16263 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 0 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/libManager -unmapped  -mpssession virtuoso16207 -mpshost myth22 
+16281 pts/2    S      0:16 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/64bit/libManager -unmapped -mpssession virtuoso16207 -mpshost myth22
+18303 pts/22   Ss     0:00 -csh
+18375 pts/22   S+     0:04 ssh corn
+18411 pts/18   Ss+    0:00 -csh
+18632 pts/15   Ss+    0:00 -csh
+19472 tty8     Ss+    3:26 /usr/bin/X :19 -auth /var/run/lightdm/root/:19 -nolisten tcp vt8 -novtswitch
+19740 pts/23   Ss     0:00 -csh
+19804 pts/23   Sl+    0:00 vim etude1Test.py
+21293 pts/24   Ss     0:00 -csh
+21603 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 1 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21611 pts/2    S      0:00 /bin/sh /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21634 pts/24   Sl+    0:00 vim etude1Test.py
+21671 pts/2    Sl    16:54 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools/jre64/bin/java -Dclient.xserver.version=40300000 -Dclient.xserver.vendor=XFree86 -Xss5M -Xms36M -Xmx1024M -XX:PermSize=24M -XX:MaxPermSize=48M -XX:NewSize=12M -Dswing.metalTheme=ocean -classpath /afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/cds_srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wavescan.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wsutil.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/symphony.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/crimson.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jaxp.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jai/lib/jai_codec.jar COM.cadence.awd.session.ApplicationManager -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22
+23475 pts/3    Ss     0:00 -csh
+23479 pts/3    S+     0:00 emacs reassemble
+26738 pts/38   Ss     0:00 -csh
+26783 pts/38   S+     0:02 ssh -X corn.stanford.edu
+30910 pts/20   Ss     0:00 bash
+30973 pts/25   Ss+    0:00 -csh
+32507 tty9     Ss+    0:11 /usr/bin/X :21 -auth /var/run/lightdm/root/:21 -nolisten tcp vt9 -novtswitch
+tsh> fg %1
+tsh> /bin/ps a
+  PID TTY      STAT   TIME COMMAND
+  936 tty4     Ss+    0:00 /sbin/getty -8 38400 tty4
+  942 tty5     Ss+    0:00 /sbin/getty -8 38400 tty5
+  951 tty2     Ss+    0:00 /sbin/getty -8 38400 tty2
+  952 tty3     Ss+    0:00 /sbin/getty -8 38400 tty3
+  954 tty6     Ss+    0:00 /sbin/getty -8 38400 tty6
+ 1056 pts/34   Ss+    0:00 -csh
+ 1572 tty1     Ss+    0:00 /sbin/getty -8 38400 tty1
+ 2286 pts/20   S+     0:01 ssh -X suraje@corn.stanford.edu
+ 3395 pts/0    Ss+    0:00 -bin/tcsh
+ 3476 pts/19   Ss+    0:00 -bin/tcsh
+ 8746 pts/11   Ss     0:00 -csh
+ 9804 pts/11   Sl+   18:00 emacs Makefile
+ 9996 tty7     Ss+   10:32 /usr/bin/X :0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+10855 pts/33   Ss+    0:00 -csh
+12613 pts/14   Ss     0:00 -csh
+12732 pts/47   Ss     0:00 -tcsh
+12762 pts/49   Ss     0:00 -tcsh
+12776 pts/49   S      0:00 /bin/zsh
+12823 pts/47   S+     0:00 /bin/zsh
+12883 pts/14   S+     0:02 ssh shehadeh@corn
+13568 pts/4    Ss     0:00 -tcsh
+13683 pts/4    S+     0:00 make tsh_soln_out
+13684 pts/4    S+     0:00 /bin/sh -c make tests > tsh_soln.out 2>&1
+13685 pts/4    S+     0:00 make tests
+13797 pts/4    S+     0:00 /usr/bin/perl ./sdriver.pl -t traces/trace13.txt -s ./tsh -a -p
+13798 pts/4    S+     0:00 ./tsh -p
+13813 pts/4    R      0:00 /bin/ps a
+13913 pts/2    Ss+    0:00 -csh
+14529 pts/12   Ss+    0:00 -csh
+14678 pts/49   Sl+    0:00 vim inode.c
+15908 pts/13   Ss+    0:00 /bin/zsh
+15913 pts/17   Ss     0:00 /bin/zsh
+15918 pts/28   Ss     0:00 /bin/zsh
+16030 pts/28   Sl+    0:00 vim print.pl
+16072 pts/17   Sl+    0:00 vim readme.txt
+16207 pts/2    S    107:37 /usr/class/ee/cadence/IC614/tools/dfII/bin/64bit/virtuoso
+16263 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 0 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/libManager -unmapped  -mpssession virtuoso16207 -mpshost myth22 
+16281 pts/2    S      0:16 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/64bit/libManager -unmapped -mpssession virtuoso16207 -mpshost myth22
+18303 pts/22   Ss     0:00 -csh
+18375 pts/22   S+     0:04 ssh corn
+18411 pts/18   Ss+    0:00 -csh
+18632 pts/15   Ss+    0:00 -csh
+19472 tty8     Ss+    3:26 /usr/bin/X :19 -auth /var/run/lightdm/root/:19 -nolisten tcp vt8 -novtswitch
+19740 pts/23   Ss     0:00 -csh
+19804 pts/23   Sl+    0:00 vim etude1Test.py
+21293 pts/24   Ss     0:00 -csh
+21603 pts/2    S      0:02 /usr/class/ee/cadence/IC614/tools/bin/32bit/cdsServIpc -c 38788 -n 1 -r 10 -x /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21611 pts/2    S      0:00 /bin/sh /afs/ir.stanford.edu/class/ee/cadence/IC614/tools.lnx86/dfII/bin/viva -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22 -display :1
+21634 pts/24   Sl+    0:00 vim etude1Test.py
+21671 pts/2    Sl    16:54 /afs/ir.stanford.edu/class/ee/cadence/IC614/tools/jre64/bin/java -Dclient.xserver.version=40300000 -Dclient.xserver.vendor=XFree86 -Xss5M -Xms36M -Xmx1024M -XX:PermSize=24M -XX:MaxPermSize=48M -XX:NewSize=12M -Dswing.metalTheme=ocean -classpath /afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/cds_srr.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wavescan.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/wsutil.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/symphony.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/crimson.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jaxp.jar:/afs/ir.stanford.edu/class/ee/cadence/IC614/share/java/jai/lib/jai_codec.jar COM.cadence.awd.session.ApplicationManager -mode XL -token 000169A14E3B5955481B33F847625B57141F61FC1C6654534E1138F6113B08521D4A3BF642346C382C292EF620066C624B5C7DAC2F176C621E1B01C7426E6C6216183BF6426E6C622C293BF6426E6C622C296939D783F98F7EE6000027AD -log /afs/.ir.stanford.edu/users/b/h/bhrugu/ee313/opus/ade_viva.log -noui -viva -exprlang Skill -mpssession virtuoso16207 -mpshost myth22
+23475 pts/3    Ss     0:00 -csh
+23479 pts/3    S+     0:00 emacs reassemble
+26738 pts/38   Ss     0:00 -csh
+26783 pts/38   S+     0:02 ssh -X corn.stanford.edu
+30910 pts/20   Ss     0:00 bash
+30973 pts/25   Ss+    0:00 -csh
+32507 tty9     Ss+    0:11 /usr/bin/X :21 -auth /var/run/lightdm/root/:21 -nolisten tcp vt9 -novtswitch
+./sdriver.pl -t traces/trace14.txt -s ./tsh -a "-p"
+#
+# trace14.txt - Simple error handling
+#
+tsh> ./bogus
+./bogus: Command not found
+tsh> ./myspin 4 &
+[1] (13820) ./myspin 4 &
+tsh> fg
+fg command requires PID or %jobid argument
+tsh> bg
+bg command requires PID or %jobid argument
+tsh> fg a
+fg: argument must be a PID or %jobid
+tsh> bg a
+bg: argument must be a PID or %jobid
+tsh> fg 9999999
+(9999999): No such process
+tsh> bg 9999999
+(9999999): No such process
+tsh> fg %2
+%2: No such job
+tsh> fg %1
+Job [1] (13820) stopped by signal 20
+tsh> bg %2
+%2: No such job
+tsh> bg %1
+[1] (13820) ./myspin 4 &
+tsh> jobs
+[1] (13820) Running ./myspin 4 &
+./sdriver.pl -t traces/trace15.txt -s ./tsh -a "-p"
+#
+# trace15.txt - Putting it all together
+#
+tsh> ./bogus
+./bogus: Command not found
+tsh> ./myspin 10
+Job [1] (13842) terminated by signal 2
+tsh> ./myspin 3 &
+[1] (13844) ./myspin 3 &
+tsh> ./myspin 4 &
+[2] (13846) ./myspin 4 &
+tsh> jobs
+[1] (13844) Running ./myspin 3 &
+[2] (13846) Running ./myspin 4 &
+tsh> fg %1
+Job [1] (13844) stopped by signal 20
+tsh> jobs
+[1] (13844) Stopped ./myspin 3 &
+[2] (13846) Running ./myspin 4 &
+tsh> bg %3
+%3: No such job
+tsh> bg %1
+[1] (13844) ./myspin 3 &
+tsh> jobs
+[1] (13844) Running ./myspin 3 &
+[2] (13846) Running ./myspin 4 &
+tsh> fg %1
+tsh> quit
+./sdriver.pl -t traces/trace16.txt -s ./tsh -a "-p"
+#
+# trace16.txt - Tests whether the shell can handle SIGTSTP and SIGINT
+#     signals that come from other processes instead of the terminal.
+#
+tsh> ./mystop 2
+Job [1] (13870) stopped by signal 20
+tsh> jobs
+[1] (13870) Stopped ./mystop 2
+tsh> ./myint 2
+Job [2] (13876) terminated by signal 2
+./sdriver.pl -t traces/trace17.txt -s ./tsh -a "-p"
+#
+# trace17.txt - Tests whether or not input redirection works properly on user file.
+#
+tsh> ./mycat < /usr/include/stdio.h
+/* Define ISO C stdio on top of C++ iostreams.
+   Copyright (C) 1991, 1994-2010, 2011 Free Software Foundation, Inc.
+   This file is part of the GNU C Library.
+
+   The GNU C Library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU Lesser General Public
+   License as published by the Free Software Foundation; either
+   version 2.1 of the License, or (at your option) any later version.
+
+   The GNU C Library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public
+   License along with the GNU C Library; if not, write to the Free
+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+   02111-1307 USA.  */
+
+/*
+ *	ISO C99 Standard: 7.19 Input/output	<stdio.h>
+ */
+
+#ifndef _STDIO_H
+
+#if !defined __need_FILE && !defined __need___FILE
+# define _STDIO_H	1
+# include <features.h>
+
+__BEGIN_DECLS
+
+# define __need_size_t
+# define __need_NULL
+# include <stddef.h>
+
+# include <bits/types.h>
+# define __need_FILE
+# define __need___FILE
+#endif /* Don't need FILE.  */
+
+
+#if !defined __FILE_defined && defined __need_FILE
+
+/* Define outside of namespace so the C++ is happy.  */
+struct _IO_FILE;
+
+__BEGIN_NAMESPACE_STD
+/* The opaque type of streams.  This is the definition used elsewhere.  */
+typedef struct _IO_FILE FILE;
+__END_NAMESPACE_STD
+#if defined __USE_LARGEFILE64 || defined __USE_SVID || defined __USE_POSIX \
+    || defined __USE_BSD || defined __USE_ISOC99 || defined __USE_XOPEN \
+    || defined __USE_POSIX2
+__USING_NAMESPACE_STD(FILE)
+#endif
+
+# define __FILE_defined	1
+#endif /* FILE not defined.  */
+#undef	__need_FILE
+
+
+#if !defined ____FILE_defined && defined __need___FILE
+
+/* The opaque type of streams.  This is the definition used elsewhere.  */
+typedef struct _IO_FILE __FILE;
+
+# define ____FILE_defined	1
+#endif /* __FILE not defined.  */
+#undef	__need___FILE
+
+
+#ifdef	_STDIO_H
+#define _STDIO_USES_IOSTREAM
+
+#include <libio.h>
+
+#if defined __USE_XOPEN || defined __USE_XOPEN2K8
+# ifdef __GNUC__
+#  ifndef _VA_LIST_DEFINED
+typedef _G_va_list va_list;
+#   define _VA_LIST_DEFINED
+#  endif
+# else
+#  include <stdarg.h>
+# endif
+#endif
+
+#ifdef __USE_XOPEN2K8
+# ifndef __off_t_defined
+# ifndef __USE_FILE_OFFSET64
+typedef __off_t off_t;
+# else
+typedef __off64_t off_t;
+# endif
+# define __off_t_defined
+# endif
+# if defined __USE_LARGEFILE64 && !defined __off64_t_defined
+typedef __off64_t off64_t;
+# define __off64_t_defined
+# endif
+
+# ifndef __ssize_t_defined
+typedef __ssize_t ssize_t;
+# define __ssize_t_defined
+# endif
+#endif
+
+/* The type of the second argument to `fgetpos' and `fsetpos'.  */
+__BEGIN_NAMESPACE_STD
+#ifndef __USE_FILE_OFFSET64
+typedef _G_fpos_t fpos_t;
+#else
+typedef _G_fpos64_t fpos_t;
+#endif
+__END_NAMESPACE_STD
+#ifdef __USE_LARGEFILE64
+typedef _G_fpos64_t fpos64_t;
+#endif
+
+/* The possibilities for the third argument to `setvbuf'.  */
+#define _IOFBF 0		/* Fully buffered.  */
+#define _IOLBF 1		/* Line buffered.  */
+#define _IONBF 2		/* No buffering.  */
+
+
+/* Default buffer size.  */
+#ifndef BUFSIZ
+# define BUFSIZ _IO_BUFSIZ
+#endif
+
+
+/* End of file character.
+   Some things throughout the library rely on this being -1.  */
+#ifndef EOF
+# define EOF (-1)
+#endif
+
+
+/* The possibilities for the third argument to `fseek'.
+   These values should not be changed.  */
+#define SEEK_SET	0	/* Seek from beginning of file.  */
+#define SEEK_CUR	1	/* Seek from current position.  */
+#define SEEK_END	2	/* Seek from end of file.  */
+#ifdef __USE_GNU
+# define SEEK_DATA	3	/* Seek to next data.  */
+# define SEEK_HOLE	4	/* Seek to next hole.  */
+#endif
+
+
+#if defined __USE_SVID || defined __USE_XOPEN
+/* Default path prefix for `tempnam' and `tmpnam'.  */
+# define P_tmpdir	"/tmp"
+#endif
+
+
+/* Get the values:
+   L_tmpnam	How long an array of chars must be to be passed to `tmpnam'.
+   TMP_MAX	The minimum number of unique filenames generated by tmpnam
+		(and tempnam when it uses tmpnam's name space),
+		or tempnam (the two are separate).
+   L_ctermid	How long an array to pass to `ctermid'.
+   L_cuserid	How long an array to pass to `cuserid'.
+   FOPEN_MAX	Minimum number of files that can be open at once.
+   FILENAME_MAX	Maximum length of a filename.  */
+#include <bits/stdio_lim.h>
+
+
+/* Standard streams.  */
+extern struct _IO_FILE *stdin;		/* Standard input stream.  */
+extern struct _IO_FILE *stdout;		/* Standard output stream.  */
+extern struct _IO_FILE *stderr;		/* Standard error output stream.  */
+/* C89/C99 say they're macros.  Make them happy.  */
+#define stdin stdin
+#define stdout stdout
+#define stderr stderr
+
+__BEGIN_NAMESPACE_STD
+/* Remove file FILENAME.  */
+extern int remove (__const char *__filename) __THROW;
+/* Rename file OLD to NEW.  */
+extern int rename (__const char *__old, __const char *__new) __THROW;
+__END_NAMESPACE_STD
+
+#ifdef __USE_ATFILE
+/* Rename file OLD relative to OLDFD to NEW relative to NEWFD.  */
+extern int renameat (int __oldfd, __const char *__old, int __newfd,
+		     __const char *__new) __THROW;
+#endif
+
+__BEGIN_NAMESPACE_STD
+/* Create a temporary file and open it read/write.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+#ifndef __USE_FILE_OFFSET64
+extern FILE *tmpfile (void) __wur;
+#else
+# ifdef __REDIRECT
+extern FILE *__REDIRECT (tmpfile, (void), tmpfile64) __wur;
+# else
+#  define tmpfile tmpfile64
+# endif
+#endif
+
+#ifdef __USE_LARGEFILE64
+extern FILE *tmpfile64 (void) __wur;
+#endif
+
+/* Generate a temporary filename.  */
+extern char *tmpnam (char *__s) __THROW __wur;
+__END_NAMESPACE_STD
+
+#ifdef __USE_MISC
+/* This is the reentrant variant of `tmpnam'.  The only difference is
+   that it does not allow S to be NULL.  */
+extern char *tmpnam_r (char *__s) __THROW __wur;
+#endif
+
+
+#if defined __USE_SVID || defined __USE_XOPEN
+/* Generate a unique temporary filename using up to five characters of PFX
+   if it is not NULL.  The directory to put this file in is searched for
+   as follows: First the environment variable "TMPDIR" is checked.
+   If it contains the name of a writable directory, that directory is used.
+   If not and if DIR is not NULL, that value is checked.  If that fails,
+   P_tmpdir is tried and finally "/tmp".  The storage for the filename
+   is allocated by `malloc'.  */
+extern char *tempnam (__const char *__dir, __const char *__pfx)
+     __THROW __attribute_malloc__ __wur;
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Close STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fclose (FILE *__stream);
+/* Flush STREAM, or all streams if STREAM is NULL.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fflush (FILE *__stream);
+__END_NAMESPACE_STD
+
+#ifdef __USE_MISC
+/* Faster versions when locking is not required.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern int fflush_unlocked (FILE *__stream);
+#endif
+
+#ifdef __USE_GNU
+/* Close all streams.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern int fcloseall (void);
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+#ifndef __USE_FILE_OFFSET64
+/* Open a file and create a new stream for it.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern FILE *fopen (__const char *__restrict __filename,
+		    __const char *__restrict __modes) __wur;
+/* Open a file, replacing an existing stream with it.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern FILE *freopen (__const char *__restrict __filename,
+		      __const char *__restrict __modes,
+		      FILE *__restrict __stream) __wur;
+#else
+# ifdef __REDIRECT
+extern FILE *__REDIRECT (fopen, (__const char *__restrict __filename,
+				 __const char *__restrict __modes), fopen64)
+  __wur;
+extern FILE *__REDIRECT (freopen, (__const char *__restrict __filename,
+				   __const char *__restrict __modes,
+				   FILE *__restrict __stream), freopen64)
+  __wur;
+# else
+#  define fopen fopen64
+#  define freopen freopen64
+# endif
+#endif
+__END_NAMESPACE_STD
+#ifdef __USE_LARGEFILE64
+extern FILE *fopen64 (__const char *__restrict __filename,
+		      __const char *__restrict __modes) __wur;
+extern FILE *freopen64 (__const char *__restrict __filename,
+			__const char *__restrict __modes,
+			FILE *__restrict __stream) __wur;
+#endif
+
+#ifdef	__USE_POSIX
+/* Create a new stream that refers to an existing system file descriptor.  */
+extern FILE *fdopen (int __fd, __const char *__modes) __THROW __wur;
+#endif
+
+#ifdef	__USE_GNU
+/* Create a new stream that refers to the given magic cookie,
+   and uses the given functions for input and output.  */
+extern FILE *fopencookie (void *__restrict __magic_cookie,
+			  __const char *__restrict __modes,
+			  _IO_cookie_io_functions_t __io_funcs) __THROW __wur;
+#endif
+
+#ifdef __USE_XOPEN2K8
+/* Create a new stream that refers to a memory buffer.  */
+extern FILE *fmemopen (void *__s, size_t __len, __const char *__modes)
+  __THROW __wur;
+
+/* Open a stream that writes into a malloc'd buffer that is expanded as
+   necessary.  *BUFLOC and *SIZELOC are updated with the buffer's location
+   and the number of characters written on fflush or fclose.  */
+extern FILE *open_memstream (char **__bufloc, size_t *__sizeloc) __THROW __wur;
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* If BUF is NULL, make STREAM unbuffered.
+   Else make it use buffer BUF, of size BUFSIZ.  */
+extern void setbuf (FILE *__restrict __stream, char *__restrict __buf) __THROW;
+/* Make STREAM use buffering mode MODE.
+   If BUF is not NULL, use N bytes of it for buffering;
+   else allocate an internal buffer N bytes long.  */
+extern int setvbuf (FILE *__restrict __stream, char *__restrict __buf,
+		    int __modes, size_t __n) __THROW;
+__END_NAMESPACE_STD
+
+#ifdef	__USE_BSD
+/* If BUF is NULL, make STREAM unbuffered.
+   Else make it use SIZE bytes of BUF for buffering.  */
+extern void setbuffer (FILE *__restrict __stream, char *__restrict __buf,
+		       size_t __size) __THROW;
+
+/* Make STREAM line-buffered.  */
+extern void setlinebuf (FILE *__stream) __THROW;
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Write formatted output to STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fprintf (FILE *__restrict __stream,
+		    __const char *__restrict __format, ...);
+/* Write formatted output to stdout.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int printf (__const char *__restrict __format, ...);
+/* Write formatted output to S.  */
+extern int sprintf (char *__restrict __s,
+		    __const char *__restrict __format, ...) __THROWNL;
+
+/* Write formatted output to S from argument list ARG.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int vfprintf (FILE *__restrict __s, __const char *__restrict __format,
+		     _G_va_list __arg);
+/* Write formatted output to stdout from argument list ARG.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int vprintf (__const char *__restrict __format, _G_va_list __arg);
+/* Write formatted output to S from argument list ARG.  */
+extern int vsprintf (char *__restrict __s, __const char *__restrict __format,
+		     _G_va_list __arg) __THROWNL;
+__END_NAMESPACE_STD
+
+#if defined __USE_BSD || defined __USE_ISOC99 || defined __USE_UNIX98
+__BEGIN_NAMESPACE_C99
+/* Maximum chars of output to write in MAXLEN.  */
+extern int snprintf (char *__restrict __s, size_t __maxlen,
+		     __const char *__restrict __format, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 3, 4)));
+
+extern int vsnprintf (char *__restrict __s, size_t __maxlen,
+		      __const char *__restrict __format, _G_va_list __arg)
+     __THROWNL __attribute__ ((__format__ (__printf__, 3, 0)));
+__END_NAMESPACE_C99
+#endif
+
+#ifdef __USE_GNU
+/* Write formatted output to a string dynamically allocated with `malloc'.
+   Store the address of the string in *PTR.  */
+extern int vasprintf (char **__restrict __ptr, __const char *__restrict __f,
+		      _G_va_list __arg)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 0))) __wur;
+extern int __asprintf (char **__restrict __ptr,
+		       __const char *__restrict __fmt, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 3))) __wur;
+extern int asprintf (char **__restrict __ptr,
+		     __const char *__restrict __fmt, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 3))) __wur;
+#endif
+
+#ifdef __USE_XOPEN2K8
+/* Write formatted output to a file descriptor.
+
+   These functions are not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation they are cancellation points and
+   therefore not marked with __THROW.  */
+extern int vdprintf (int __fd, __const char *__restrict __fmt,
+		     _G_va_list __arg)
+     __attribute__ ((__format__ (__printf__, 2, 0)));
+extern int dprintf (int __fd, __const char *__restrict __fmt, ...)
+     __attribute__ ((__format__ (__printf__, 2, 3)));
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Read formatted input from STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fscanf (FILE *__restrict __stream,
+		   __const char *__restrict __format, ...) __wur;
+/* Read formatted input from stdin.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int scanf (__const char *__restrict __format, ...) __wur;
+/* Read formatted input from S.  */
+extern int sscanf (__const char *__restrict __s,
+		   __const char *__restrict __format, ...) __THROW;
+
+#if defined __USE_ISOC99 && !defined __USE_GNU \
+    && (!defined __LDBL_COMPAT || !defined __REDIRECT) \
+    && (defined __STRICT_ANSI__ || defined __USE_XOPEN2K)
+# ifdef __REDIRECT
+/* For strict ISO C99 or POSIX compliance disallow %as, %aS and %a[
+   GNU extension which conflicts with valid %a followed by letter
+   s, S or [.  */
+extern int __REDIRECT (fscanf, (FILE *__restrict __stream,
+				__const char *__restrict __format, ...),
+		       __isoc99_fscanf) __wur;
+extern int __REDIRECT (scanf, (__const char *__restrict __format, ...),
+		       __isoc99_scanf) __wur;
+extern int __REDIRECT_NTH (sscanf, (__const char *__restrict __s,
+				    __const char *__restrict __format, ...),
+			   __isoc99_sscanf);
+# else
+extern int __isoc99_fscanf (FILE *__restrict __stream,
+			    __const char *__restrict __format, ...) __wur;
+extern int __isoc99_scanf (__const char *__restrict __format, ...) __wur;
+extern int __isoc99_sscanf (__const char *__restrict __s,
+			    __const char *__restrict __format, ...) __THROW;
+#  define fscanf __isoc99_fscanf
+#  define scanf __isoc99_scanf
+#  define sscanf __isoc99_sscanf
+# endif
+#endif
+
+__END_NAMESPACE_STD
+
+#ifdef	__USE_ISOC99
+__BEGIN_NAMESPACE_C99
+/* Read formatted input from S into argument list ARG.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int vfscanf (FILE *__restrict __s, __const char *__restrict __format,
+		    _G_va_list __arg)
+     __attribute__ ((__format__ (__scanf__, 2, 0))) __wur;
+
+/* Read formatted input from stdin into argument list ARG.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int vscanf (__const char *__restrict __format, _G_va_list __arg)
+     __attribute__ ((__format__ (__scanf__, 1, 0))) __wur;
+
+/* Read formatted input from S into argument list ARG.  */
+extern int vsscanf (__const char *__restrict __s,
+		    __const char *__restrict __format, _G_va_list __arg)
+     __THROW __attribute__ ((__format__ (__scanf__, 2, 0)));
+
+# if !defined __USE_GNU \
+     && (!defined __LDBL_COMPAT || !defined __REDIRECT) \
+     && (defined __STRICT_ANSI__ || defined __USE_XOPEN2K)
+#  ifdef __REDIRECT
+/* For strict ISO C99 or POSIX compliance disallow %as, %aS and %a[
+   GNU extension which conflicts with valid %a followed by letter
+   s, S or [.  */
+extern int __REDIRECT (vfscanf,
+		       (FILE *__restrict __s,
+			__const char *__restrict __format, _G_va_list __arg),
+		       __isoc99_vfscanf)
+     __attribute__ ((__format__ (__scanf__, 2, 0))) __wur;
+extern int __REDIRECT (vscanf, (__const char *__restrict __format,
+				_G_va_list __arg), __isoc99_vscanf)
+     __attribute__ ((__format__ (__scanf__, 1, 0))) __wur;
+extern int __REDIRECT_NTH (vsscanf,
+			   (__const char *__restrict __s,
+			    __const char *__restrict __format,
+			    _G_va_list __arg), __isoc99_vsscanf)
+     __attribute__ ((__format__ (__scanf__, 2, 0)));
+#  else
+extern int __isoc99_vfscanf (FILE *__restrict __s,
+			     __const char *__restrict __format,
+			     _G_va_list __arg) __wur;
+extern int __isoc99_vscanf (__const char *__restrict __format,
+			    _G_va_list __arg) __wur;
+extern int __isoc99_vsscanf (__const char *__restrict __s,
+			     __const char *__restrict __format,
+			     _G_va_list __arg) __THROW;
+#   define vfscanf __isoc99_vfscanf
+#   define vscanf __isoc99_vscanf
+#   define vsscanf __isoc99_vsscanf
+#  endif
+# endif
+
+__END_NAMESPACE_C99
+#endif /* Use ISO C9x.  */
+
+
+__BEGIN_NAMESPACE_STD
+/* Read a character from STREAM.
+
+   These functions are possible cancellation points and therefore not
+   marked with __THROW.  */
+extern int fgetc (FILE *__stream);
+extern int getc (FILE *__stream);
+
+/* Read a character from stdin.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int getchar (void);
+__END_NAMESPACE_STD
+
+/* The C standard explicitly says this is a macro, so we always do the
+   optimization for it.  */
+#define getc(_fp) _IO_getc (_fp)
+
+#if defined __USE_POSIX || defined __USE_MISC
+/* These are defined in POSIX.1:1996.
+
+   These functions are possible cancellation points and therefore not
+   marked with __THROW.  */
+extern int getc_unlocked (FILE *__stream);
+extern int getchar_unlocked (void);
+#endif /* Use POSIX or MISC.  */
+
+#ifdef __USE_MISC
+/* Faster version when locking is not necessary.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern int fgetc_unlocked (FILE *__stream);
+#endif /* Use MISC.  */
+
+
+__BEGIN_NAMESPACE_STD
+/* Write a character to STREAM.
+
+   These functions are possible cancellation points and therefore not
+   marked with __THROW.
+
+   These functions is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fputc (int __c, FILE *__stream);
+extern int putc (int __c, FILE *__stream);
+
+/* Write a character to stdout.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int putchar (int __c);
+__END_NAMESPACE_STD
+
+/* The C standard explicitly says this can be a macro,
+   so we always do the optimization for it.  */
+#define putc(_ch, _fp) _IO_putc (_ch, _fp)
+
+#ifdef __USE_MISC
+/* Faster version when locking is not necessary.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern int fputc_unlocked (int __c, FILE *__stream);
+#endif /* Use MISC.  */
+
+#if defined __USE_POSIX || defined __USE_MISC
+/* These are defined in POSIX.1:1996.
+
+   These functions are possible cancellation points and therefore not
+   marked with __THROW.  */
+extern int putc_unlocked (int __c, FILE *__stream);
+extern int putchar_unlocked (int __c);
+#endif /* Use POSIX or MISC.  */
+
+
+#if defined __USE_SVID || defined __USE_MISC \
+    || (defined __USE_XOPEN && !defined __USE_XOPEN2K)
+/* Get a word (int) from STREAM.  */
+extern int getw (FILE *__stream);
+
+/* Write a word (int) to STREAM.  */
+extern int putw (int __w, FILE *__stream);
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Get a newline-terminated string of finite length from STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern char *fgets (char *__restrict __s, int __n, FILE *__restrict __stream)
+     __wur;
+
+/* Get a newline-terminated string from stdin, removing the newline.
+   DO NOT USE THIS FUNCTION!!  There is no limit on how much it will read.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern char *gets (char *__s) __wur;
+__END_NAMESPACE_STD
+
+#ifdef __USE_GNU
+/* This function does the same as `fgets' but does not lock the stream.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern char *fgets_unlocked (char *__restrict __s, int __n,
+			     FILE *__restrict __stream) __wur;
+#endif
+
+
+#ifdef	__USE_XOPEN2K8
+/* Read up to (and including) a DELIMITER from STREAM into *LINEPTR
+   (and null-terminate it). *LINEPTR is a pointer returned from malloc (or
+   NULL), pointing to *N characters of space.  It is realloc'd as
+   necessary.  Returns the number of characters read (not including the
+   null terminator), or -1 on error or EOF.
+
+   These functions are not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation they are cancellation points and
+   therefore not marked with __THROW.  */
+extern _IO_ssize_t __getdelim (char **__restrict __lineptr,
+			       size_t *__restrict __n, int __delimiter,
+			       FILE *__restrict __stream) __wur;
+extern _IO_ssize_t getdelim (char **__restrict __lineptr,
+			     size_t *__restrict __n, int __delimiter,
+			     FILE *__restrict __stream) __wur;
+
+/* Like `getdelim', but reads up to a newline.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern _IO_ssize_t getline (char **__restrict __lineptr,
+			    size_t *__restrict __n,
+			    FILE *__restrict __stream) __wur;
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Write a string to STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fputs (__const char *__restrict __s, FILE *__restrict __stream);
+
+/* Write a string, followed by a newline, to stdout.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int puts (__const char *__s);
+
+
+/* Push a character back onto the input buffer of STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int ungetc (int __c, FILE *__stream);
+
+
+/* Read chunks of generic data from STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern size_t fread (void *__restrict __ptr, size_t __size,
+		     size_t __n, FILE *__restrict __stream) __wur;
+/* Write chunks of generic data to STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern size_t fwrite (__const void *__restrict __ptr, size_t __size,
+		      size_t __n, FILE *__restrict __s);
+__END_NAMESPACE_STD
+
+#ifdef __USE_GNU
+/* This function does the same as `fputs' but does not lock the stream.
+
+   This function is not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation it is a cancellation point and
+   therefore not marked with __THROW.  */
+extern int fputs_unlocked (__const char *__restrict __s,
+			   FILE *__restrict __stream);
+#endif
+
+#ifdef __USE_MISC
+/* Faster versions when locking is not necessary.
+
+   These functions are not part of POSIX and therefore no official
+   cancellation point.  But due to similarity with an POSIX interface
+   or due to the implementation they are cancellation points and
+   therefore not marked with __THROW.  */
+extern size_t fread_unlocked (void *__restrict __ptr, size_t __size,
+			      size_t __n, FILE *__restrict __stream) __wur;
+extern size_t fwrite_unlocked (__const void *__restrict __ptr, size_t __size,
+			       size_t __n, FILE *__restrict __stream);
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Seek to a certain position on STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fseek (FILE *__stream, long int __off, int __whence);
+/* Return the current position of STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern long int ftell (FILE *__stream) __wur;
+/* Rewind to the beginning of STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern void rewind (FILE *__stream);
+__END_NAMESPACE_STD
+
+/* The Single Unix Specification, Version 2, specifies an alternative,
+   more adequate interface for the two functions above which deal with
+   file offset.  `long int' is not the right type.  These definitions
+   are originally defined in the Large File Support API.  */
+
+#if defined __USE_LARGEFILE || defined __USE_XOPEN2K
+# ifndef __USE_FILE_OFFSET64
+/* Seek to a certain position on STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fseeko (FILE *__stream, __off_t __off, int __whence);
+/* Return the current position of STREAM.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern __off_t ftello (FILE *__stream) __wur;
+# else
+#  ifdef __REDIRECT
+extern int __REDIRECT (fseeko,
+		       (FILE *__stream, __off64_t __off, int __whence),
+		       fseeko64);
+extern __off64_t __REDIRECT (ftello, (FILE *__stream), ftello64);
+#  else
+#   define fseeko fseeko64
+#   define ftello ftello64
+#  endif
+# endif
+#endif
+
+__BEGIN_NAMESPACE_STD
+#ifndef __USE_FILE_OFFSET64
+/* Get STREAM's position.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fgetpos (FILE *__restrict __stream, fpos_t *__restrict __pos);
+/* Set STREAM's position.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int fsetpos (FILE *__stream, __const fpos_t *__pos);
+#else
+# ifdef __REDIRECT
+extern int __REDIRECT (fgetpos, (FILE *__restrict __stream,
+				 fpos_t *__restrict __pos), fgetpos64);
+extern int __REDIRECT (fsetpos,
+		       (FILE *__stream, __const fpos_t *__pos), fsetpos64);
+# else
+#  define fgetpos fgetpos64
+#  define fsetpos fsetpos64
+# endif
+#endif
+__END_NAMESPACE_STD
+
+#ifdef __USE_LARGEFILE64
+extern int fseeko64 (FILE *__stream, __off64_t __off, int __whence);
+extern __off64_t ftello64 (FILE *__stream) __wur;
+extern int fgetpos64 (FILE *__restrict __stream, fpos64_t *__restrict __pos);
+extern int fsetpos64 (FILE *__stream, __const fpos64_t *__pos);
+#endif
+
+__BEGIN_NAMESPACE_STD
+/* Clear the error and EOF indicators for STREAM.  */
+extern void clearerr (FILE *__stream) __THROW;
+/* Return the EOF indicator for STREAM.  */
+extern int feof (FILE *__stream) __THROW __wur;
+/* Return the error indicator for STREAM.  */
+extern int ferror (FILE *__stream) __THROW __wur;
+__END_NAMESPACE_STD
+
+#ifdef __USE_MISC
+/* Faster versions when locking is not required.  */
+extern void clearerr_unlocked (FILE *__stream) __THROW;
+extern int feof_unlocked (FILE *__stream) __THROW __wur;
+extern int ferror_unlocked (FILE *__stream) __THROW __wur;
+#endif
+
+
+__BEGIN_NAMESPACE_STD
+/* Print a message describing the meaning of the value of errno.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern void perror (__const char *__s);
+__END_NAMESPACE_STD
+
+/* Provide the declarations for `sys_errlist' and `sys_nerr' if they
+   are available on this system.  Even if available, these variables
+   should not be used directly.  The `strerror' function provides
+   all the necessary functionality.  */
+#include <bits/sys_errlist.h>
+
+
+#ifdef	__USE_POSIX
+/* Return the system file descriptor for STREAM.  */
+extern int fileno (FILE *__stream) __THROW __wur;
+#endif /* Use POSIX.  */
+
+#ifdef __USE_MISC
+/* Faster version when locking is not required.  */
+extern int fileno_unlocked (FILE *__stream) __THROW __wur;
+#endif
+
+
+#if (defined __USE_POSIX2 || defined __USE_SVID  || defined __USE_BSD || \
+     defined __USE_MISC)
+/* Create a new stream connected to a pipe running the given command.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern FILE *popen (__const char *__command, __const char *__modes) __wur;
+
+/* Close a stream opened by popen and return the status of its child.
+
+   This function is a possible cancellation point and therefore not
+   marked with __THROW.  */
+extern int pclose (FILE *__stream);
+#endif
+
+
+#ifdef	__USE_POSIX
+/* Return the name of the controlling terminal.  */
+extern char *ctermid (char *__s) __THROW;
+#endif /* Use POSIX.  */
+
+
+#ifdef __USE_XOPEN
+/* Return the name of the current user.  */
+extern char *cuserid (char *__s);
+#endif /* Use X/Open, but not issue 6.  */
+
+
+#ifdef	__USE_GNU
+struct obstack;			/* See <obstack.h>.  */
+
+/* Write formatted output to an obstack.  */
+extern int obstack_printf (struct obstack *__restrict __obstack,
+			   __const char *__restrict __format, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 3)));
+extern int obstack_vprintf (struct obstack *__restrict __obstack,
+			    __const char *__restrict __format,
+			    _G_va_list __args)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 0)));
+#endif /* Use GNU.  */
+
+
+#if defined __USE_POSIX || defined __USE_MISC
+/* These are defined in POSIX.1:1996.  */
+
+/* Acquire ownership of STREAM.  */
+extern void flockfile (FILE *__stream) __THROW;
+
+/* Try to acquire ownership of STREAM but do not block if it is not
+   possible.  */
+extern int ftrylockfile (FILE *__stream) __THROW __wur;
+
+/* Relinquish the ownership granted for STREAM.  */
+extern void funlockfile (FILE *__stream) __THROW;
+#endif /* POSIX || misc */
+
+#if defined __USE_XOPEN && !defined __USE_XOPEN2K && !defined __USE_GNU
+/* The X/Open standard requires some functions and variables to be
+   declared here which do not belong into this header.  But we have to
+   follow.  In GNU mode we don't do this nonsense.  */
+# define __need_getopt
+# include <getopt.h>
+#endif	/* X/Open, but not issue 6 and not for GNU.  */
+
+/* If we are compiling with optimizing read this file.  It contains
+   several optimizing inline functions and macros.  */
+#ifdef __USE_EXTERN_INLINES
+# include <bits/stdio.h>
+#endif
+#if __USE_FORTIFY_LEVEL > 0 && defined __extern_always_inline
+# include <bits/stdio2.h>
+#endif
+#ifdef __LDBL_COMPAT
+# include <bits/stdio-ldbl.h>
+#endif
+
+__END_DECLS
+
+#endif /* <stdio.h> included.  */
+
+#endif /* !_STDIO_H */
+./sdriver.pl -t traces/trace18.txt -s ./tsh -a "-p"
+#
+# trace18.txt - Tests the ability to redirect ls to an output file and then use a built-in to view that output file
+#
+tsh> /bin/rm -fr ls-listing.txt
+tsh> /bin/ls /usr/include > ls-listing.txt
+tsh> /bin/more ls-listing.txt
+aio.h
+aliases.h
+alloca.h
+a.out.h
+argp.h
+argz.h
+ar.h
+arpa
+asm
+asm-generic
+assert.h
+autosprintf.h
+bits
+boost
+bsd
+byteswap.h
+bzlib.h
+c++
+cblas_f77.h
+cblas.h
+cfortran
+cfortran.h
+clif.h
+complex.h
+cpio.h
+crypt.h
+ctype.h
+cursesapp.h
+cursesf.h
+curses.h
+cursesm.h
+cursesp.h
+cursesw.h
+cursslk.h
+dbus-1.0
+dirent.h
+dlfcn.h
+drm
+eigen3
+elf.h
+endian.h
+envz.h
+err.h
+errno.h
+error.h
+eti.h
+etip.h
+execinfo.h
+expat_config.h
+expat_external.h
+expat.h
+f2c.h
+fcntl.h
+features.h
+fenv.h
+FlexLexer.h
+fmtmsg.h
+fnmatch.h
+fontconfig
+form.h
+fpu_control.h
+freetype2
+fstab.h
+ft2build.h
+fts.h
+ftw.h
+_G_config.h
+gconv.h
+getopt.h
+gettext-po.h
+GL
+glob.h
+gmp.h
+gmp-x86_64.h
+gmpxx.h
+gnu
+gnu-versions.h
+grp.h
+gshadow.h
+gstreamer-0.10
+guile
+iconv.h
+ieee754.h
+ifaddrs.h
+infiniband
+inttypes.h
+Inventor
+jasper
+jerror.h
+jmorecfg.h
+jpegint.h
+jpeglib.h
+langinfo.h
+lastlog.h
+layout
+libdrm
+libgen.h
+libguile
+libguile.h
+libintl.h
+libio.h
+libkms
+libltdl
+libpng
+libpng12
+libutil.h
+libxml2
+limits.h
+link.h
+linux
+locale.h
+ltdl.h
+malloc.h
+math.h
+mcheck.h
+memory.h
+menu.h
+mm
+mntent.h
+monetary.h
+mpi
+mqueue.h
+Mrm
+mtd
+nautilus-sendto
+nc_tparm.h
+ncurses_dll.h
+ncurses.h
+net
+netash
+netatalk
+netax25
+netdb.h
+neteconet
+netinet
+netipx
+netiucv
+netpacket
+netrom
+netrose
+nfs
+nlist.h
+nl_types.h
+nouveau
+nss.h
+NVCtrl
+obstack.h
+openmpi
+openssl
+panel.h
+paths.h
+pcrecpparg.h
+pcrecpp.h
+pcre.h
+pcreposix.h
+pcre_scanner.h
+pcre_stringpiece.h
+php5
+pngconf.h
+png.h
+poll.h
+printf.h
+protocols
+pthread.h
+pty.h
+pwd.h
+python2.7
+python3.2mu
+rdma
+readline
+re_comp.h
+regex.h
+regexp.h
+resolv.h
+Rmath.h
+rpc
+rpcsvc
+sched.h
+scsi
+search.h
+semaphore.h
+setjmp.h
+sgtty.h
+shadow.h
+sharutils
+signal.h
+sound
+spawn.h
+stab.h
+stdint.h
+stdio_ext.h
+stdio.h
+stdlib.h
+string.h
+strings.h
+stropts.h
+sudo_plugin.h
+sys
+syscall.h
+sysexits.h
+syslog.h
+tar.h
+termcap.h
+term_entry.h
+term.h
+termio.h
+termios.h
+tgmath.h
+thread_db.h
+tic.h
+tiffconf.h
+tiff.h
+tiffio.h
+tiffio.hxx
+tiffvers.h
+time.h
+ttyent.h
+turbojpeg.h
+ucontext.h
+uil
+ulimit.h
+unctrl.h
+unicode
+unistd.h
+ustat.h
+utime.h
+utmp.h
+utmpx.h
+valgrind
+values.h
+video
+vis.h
+wait.h
+wchar.h
+wctype.h
+wordexp.h
+X11
+x86_64-linux-gnu
+xcb
+xen
+xf86drm.h
+xf86drmMode.h
+xlocale.h
+Xm
+xorg
+zconf.h
+zlibdefs.h
+zlib.h
+./sdriver.pl -t traces/trace19.txt -s ./tsh -a "-p"
+#
+# trace19.txt - Tests whether or not output redirection works for the jobs builtin as well
+#
+tsh> /bin/rm -fr jobs.txt
+tsh> ./myspin 5 &
+[1] (13898) ./myspin 5 &
+tsh> jobs > jobs.txt
+jobs builtin above was redirected to jobs.txt, so nothing to stdout
+redirecting jobs.txt to mycat below *should* print to stdout
+tsh> ./mycat < jobs.txt
+[1] (13898) Running ./myspin 5 &
+make[1]: Leaving directory `/afs/ir.stanford.edu/class/cs110/staff/master-repos/assign3-soln'

@@ -1,0 +1,11 @@
+/bin/echo -e 'tsh> /bin/rm -fr jobs.txt'
+/bin/rm -fr jobs.txt
+/bin/echo -e 'tsh> ./myspin 2 &'
+./myspin 2 &
+/bin/echo -e 'tsh> jobs > jobs.txt'
+jobs > jobs.txt
+/bin/echo -e 'jobs builtin above was redirected to jobs.txt, so nothing to stdout'
+/bin/echo -e 'redirecting jobs.txt to mycat below *should* print to stdout'
+/bin/echo -e 'tsh> ./mycat < jobs.txt'
+./mycat < jobs.txt
+quit

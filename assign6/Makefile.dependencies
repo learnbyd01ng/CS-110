@@ -1,0 +1,20 @@
+mr.o: mr.cc mapreduce-server.h mapreduce-server-exception.h thread-pool.h
+mrw.o: mrw.cc mapreduce-worker.h
+word-count-mapper.o: word-count-mapper.cc mr-random-utils.h
+word-count-reducer.o: word-count-reducer.cc mr-random-utils.h
+mapreduce-server.o: mapreduce-server.cc mapreduce-server.h \
+ mapreduce-server-exception.h thread-pool.h \
+ /usr/class/cs110/include/socket++/sockstream.h mr-nodes.h mr-messages.h \
+ mr-env.h /usr/class/cs110/local/include/string-utils.h server-socket.h \
+ /usr/class/cs110/local/include/ostreamlock.h
+mapreduce-worker.o: mapreduce-worker.cc mapreduce-worker.h mr-messages.h \
+ /usr/class/cs110/local/include/string-utils.h client-socket.h \
+ /usr/class/cs110/include/socket++/sockstream.h
+client-socket.o: client-socket.cc client-socket.h
+server-socket.o: server-socket.cc server-socket.h
+mr-nodes.o: mr-nodes.cc mr-nodes.h
+mr-messages.o: mr-messages.cc \
+ /usr/class/cs110/local/include/string-utils.h mr-messages.h mr-env.h
+mr-env.o: mr-env.cc mr-env.h
+mr-random-utils.o: mr-random-utils.cc mr-random-utils.h \
+ /usr/class/cs110/local/include/random-generator.h
